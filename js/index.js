@@ -148,7 +148,7 @@ function render(listEl,arr){
  return phones
  }
 
- return phones.filter(x=>x['name'].toLowerCase().includes(name))
+ return phones.filter(x=>x['name'].toLowerCase().includes(name.toLowerCase()))
 
  }
 
