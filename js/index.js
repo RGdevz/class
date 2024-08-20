@@ -120,6 +120,8 @@ function render(listEl,arr){
 
  listEl.innerHTML = ''
 
+ sortList(arr)
+
 
  for (let item of arr){
 
@@ -177,7 +179,7 @@ function render(listEl,arr){
   if (same !== -1) throw new Error('already exists')
 
    phones.push(contact)
-   sortList()
+
 
    }else {
 
@@ -185,7 +187,7 @@ function render(listEl,arr){
    if (same !== -1 &&  same !== tempIndex) throw new Error('already exists')
 
    phones[tempIndex] = contact
-   sortList()
+  
 
    }
 
@@ -195,8 +197,8 @@ function render(listEl,arr){
 
 
 
- function sortList(){
-  phones.sort((a, b)=>a['name'].localeCompare(b['name']))
+ function sortList(list){
+  list.sort((a, b)=>a['name'].localeCompare(b['name']))
  }
 
 
@@ -230,7 +232,7 @@ function createContact({name,email = '',phone = 'None',img = '',address = ""}){
 
  if (check) {
  phones.splice(index, 1)
- sortList()
+
 
  const listEl = document.getElementById('the-list')
 
@@ -504,6 +506,28 @@ render(list_elem,phones)
 
 
 
+  $('#ballonBtn')?.addEventListener('click',()=>{
+
+    const img = document.getElementById('ballonTemplate')
+
+    const clone = img.content.cloneNode(true).firstElementChild
+
+
+    const randomX = Math.max(random(window.innerWidth-50,0),50)
+
+
+    clone.style.bottom = '0px'
+    clone.style.left = `${randomX}px`
+  
+
+    ballonUp(document.body.appendChild(clone))
+
+  }
+  )
+
+
+
+
    search.addEventListener('input',(ev)=>{
 
    const input = ev.target.value
@@ -517,6 +541,41 @@ render(list_elem,phones)
 
 
 
+
+
+  function ballonUp(ballon){
+
+   if (!ballon) return
+
+
+   const y = parseFloat(ballon.style.bottom.split('px')[0]) || 0
+   const x = parseFloat(ballon.style.left.split('px')[0]) || 0
+
+   const max = window.innerHeight
+
+
+   if (y>=max){
+
+   document.body.removeChild(ballon)
+
+    return
+   }
+
+   if (y<max){
+
+    const sin = Math.sin(performance.now()/500)+x
+
+    ballon.style.left = `${sin}px`
+    ballon.style.bottom = `${y+5}px`
+
+   }
+
+
+   requestAnimationFrame(()=>ballonUp(ballon))
+   
+
+
+  }
 
 
 
