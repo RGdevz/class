@@ -1,3 +1,5 @@
+'use strict'
+
 /**
  * @typedef {Object} Contact
  * @property {string} name - The name of the contact.
